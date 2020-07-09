@@ -1,9 +1,10 @@
 
 export class postUserDto {
-  idx:number;
-  name:string;
+  email : string;
+  name : string;
 }
 
 export class updateUserDto {
-  name:string;
+  email : string;
+  name : string;
 }
