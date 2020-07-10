@@ -5,7 +5,7 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient();
 
 @Injectable()
-export class AppService {
+export class UserService {
 
   async getUserList() {
 
@@ -25,7 +25,7 @@ export class AppService {
     //요거 너무 비효율 적인디
     userIdx = Number(userIdx);
 
-    const userDetail = await prisma.user.findMany(
+    const userDetail = await prisma.user.findOne(
       {
         where : {id : userIdx},
         include: { posts: true },
@@ -37,7 +37,7 @@ export class AppService {
     return userDetail;
   }
 
-  async postUser(bodyData){
+  async postUser(bodyData) : Promise<string>{
 
     const postResult = await prisma.user.create({
       data: bodyData
@@ -48,7 +48,7 @@ export class AppService {
     return "유저 정보 추가 성공.";
   }
 
-  async updateUser(userIdx : number, bodyData){
+  async updateUser(userIdx : number, bodyData) : Promise<string>{
 
     userIdx = Number(userIdx);
 

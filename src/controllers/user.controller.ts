@@ -1,12 +1,12 @@
 import { Controller, Get, Post,Put, Param, Body } from '@nestjs/common';
-import { AppService } from './app.service';
-import {postUserDto, updateUserDto} from './app.dto';
+import {UserService} from '../services/user.service';
+import {postUserDto, updateUserDto} from '../dtos/app.dto';
 
-@Controller("app")
-export class AppController {
-  constructor(private readonly appService: AppService) {}
+@Controller("user")
+export class UserController {
+  constructor(private readonly appService: UserService) {}
 
-  @Get('user')
+  @Get()
   async getUserList() {
 
     const userList =  await this.appService.getUserList();
@@ -20,13 +20,13 @@ export class AppController {
     return result;
   }
 
-  @Get('user/:userIdx')
+  @Get(':userIdx')
   async getUserDetail(@Param('userIdx') userIdx : number) {
 
     const userDetail = await this.appService.getUserDetail(userIdx);
 
     const result = {
-      "result" : userDetail[0],
+      "result" : userDetail,
       "isSuccess" : true,
       "message" : "유저 상세 조회 성공"
     };
@@ -34,7 +34,7 @@ export class AppController {
     return result;
   }
 
-  @Post('user')
+  @Post()
   async postUser(@Body() bodyData : postUserDto) {
 
     const userAdd = await this.appService.postUser(bodyData);
@@ -47,7 +47,7 @@ export class AppController {
     return result;
   }
 
-  @Put('user/:userIdx')
+  @Put(':userIdx')
   async updateUser(@Param('userIdx') userIdx : number , @Body() bodyData : updateUserDto) {
     const userUpdate = await this.appService.updateUser(userIdx, bodyData);
 
