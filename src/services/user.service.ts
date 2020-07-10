@@ -62,3 +62,27 @@ export class UserService {
     return "유저 정보 수정 성공.";
   }
 }
+
+@Injectable()
+export class PostService {
+
+  async postUserPost(userIdx : number, bodyData) : Promise<string>{
+
+    userIdx = Number(userIdx);
+
+    const postResult = await prisma.post.create({
+      data: {
+        title : bodyData.title,
+        content : bodyData.content,
+        author: {
+          connect: { id: userIdx },
+        }
+      }
+    });
+
+    console.log(postResult);
+
+    return "유저 게시글 등록 성공.";
+  }
+
+}

@@ -1,6 +1,6 @@
 import { Controller, Get, Post,Put, Param, Body } from '@nestjs/common';
-import {UserService} from '../services/user.service';
-import {postUserDto, updateUserDto} from '../dtos/app.dto';
+import {UserService,PostService} from '../services/user.service';
+import {postUserDto, updateUserDto} from '../dtos/user.dto';
 
 @Controller("user")
 export class UserController {
@@ -54,6 +54,24 @@ export class UserController {
     const result = {
       "isSuccess" : true,
       "message" : userUpdate
+    };
+
+    return result;
+  }
+}
+
+@Controller("post")
+export class PostController {
+  constructor(private readonly appService: PostService) {}
+
+  @Post(':userIdx')
+  async postUserPost(@Param('userIdx') userIdx : number ,@Body() bodyData : postUserDto) {
+
+    const userPostAdd = await this.appService.postUserPost(userIdx,bodyData);
+
+    const result = {
+      "isSuccess" : true,
+      "message" : userPostAdd
     };
 
     return result;
